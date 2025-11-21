@@ -22,6 +22,7 @@
 ## Rendering & performance
 - Canvas sized dynamically from viewport, capped for predictable cell scaling.
 - 2D mode draws a light grid; 3D mode swaps the grid for a parallax starfield and perspective scaling.
+- Starfield positions wrap/reset when projections exit the viewport or approach the camera to keep the field populated.
 - Particles are capped to `MAX_PARTICLES` to avoid runaway allocations; old particles are culled.
 - The game loop clamps `dt` to avoid spikes on tab refocus.
 
