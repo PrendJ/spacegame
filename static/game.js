@@ -189,8 +189,18 @@
     resize() {
       const size = Math.min(window.innerWidth * 0.9, 640);
       this.cell = Math.floor(size / COLS);
-      canvas.width = this.cell * COLS;
-      canvas.height = this.cell * ROWS;
+      const cssWidth = this.cell * COLS;
+      const cssHeight = this.cell * ROWS;
+      const dpr = window.devicePixelRatio || 1;
+
+      this.width = cssWidth;
+      this.height = cssHeight;
+
+      canvas.style.width = `${cssWidth}px`;
+      canvas.style.height = `${cssHeight}px`;
+      canvas.width = Math.floor(cssWidth * dpr);
+      canvas.height = Math.floor(cssHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     prepareGame() {
@@ -421,7 +431,7 @@
     }
 
     draw() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.clearRect(0,0,this.width,this.height);
       this._drawBackground();
       this._drawEntities();
     }
@@ -430,24 +440,24 @@
       // Grid and stars
       ctx.save();
       ctx.fillStyle = '#000818';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      const gradient = ctx.createLinearGradient(0,0,0,canvas.height);
+      ctx.fillRect(0,0,this.width,this.height);
+      const gradient = ctx.createLinearGradient(0,0,0,this.height);
       gradient.addColorStop(0,'rgba(20,60,120,0.2)');
       gradient.addColorStop(1,'rgba(0,0,0,0.2)');
       ctx.fillStyle = gradient;
-      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillRect(0,0,this.width,this.height);
 
       if (this.dimension === '2d') {
         ctx.strokeStyle = 'rgba(255,255,255,0.06)';
         ctx.lineWidth = 1;
-        for (let c=0;c<=COLS;c++){ ctx.beginPath(); ctx.moveTo(c*this.cell,0); ctx.lineTo(c*this.cell, canvas.height); ctx.stroke(); }
-        for (let r=0;r<=ROWS;r++){ ctx.beginPath(); ctx.moveTo(0,r*this.cell); ctx.lineTo(canvas.width, r*this.cell); ctx.stroke(); }
+        for (let c=0;c<=COLS;c++){ ctx.beginPath(); ctx.moveTo(c*this.cell,0); ctx.lineTo(c*this.cell, this.height); ctx.stroke(); }
+        for (let r=0;r<=ROWS;r++){ ctx.beginPath(); ctx.moveTo(0,r*this.cell); ctx.lineTo(this.width, r*this.cell); ctx.stroke(); }
       } else {
         this._starfield = this._starfield.map(s => {
           s.z -= 0.004;
           if (s.z <= 0) s.z = 1;
-          const sx = (s.x - 0.5) * canvas.width / Math.max(s.z,0.1) + canvas.width/2;
-          const sy = (s.y - 0.5) * canvas.height / Math.max(s.z,0.1) + canvas.height/2;
+          const sx = (s.x - 0.5) * this.width / Math.max(s.z,0.1) + this.width/2;
+          const sy = (s.y - 0.5) * this.height / Math.max(s.z,0.1) + this.height/2;
           const size = clamp((1 - s.z) * 3, 0.5, 3.2);
           ctx.fillStyle = `rgba(200,230,255,${1 - s.z})`;
           ctx.fillRect(sx, sy, size, size);
@@ -520,7 +530,7 @@
         return [entity.x * this.cell, entity.y * this.cell, 1];
       }
       const depth = clamp(1 - entity.z, 0.25, 1.4);
-      const cx = canvas.width/2; const cy = canvas.height/2;
+      const cx = this.width/2; const cy = this.height/2;
       const px = (entity.x - COLS/2) * this.cell * depth + cx;
       const py = (entity.y - ROWS/2) * this.cell * depth + cy;
       return [px, py, depth];
