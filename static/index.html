@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>Space Game</title>
+  <link rel="icon" href="/static/Favicon.ico">
+  <link rel="apple-touch-icon" href="/static/Favicon.png">
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#001022">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div id="ariaAnnouncer" class="sr-only" aria-live="polite"></div>
+
+  <div id="menu" class="overlay" role="dialog" aria-modal="true" aria-labelledby="ttl">
+    <div class="panel">
+      <h1 id="ttl">Space Game</h1>
+      <p>Choose your mission profile, then dive into classic or 3D combat.</p>
+      <div class="grid">
+        <div>
+          <h3>Difficulty</h3>
+          <label><input type="radio" name="difficulty" value="easy" checked> Explorer</label>
+          <label><input type="radio" name="difficulty" value="normal"> Veteran</label>
+          <label><input type="radio" name="difficulty" value="hard"> Nightmare</label>
+        </div>
+        <div>
+          <h3>Controls</h3>
+          <label><input type="radio" name="mode" value="desktop" checked> Desktop</label>
+          <label><input type="radio" name="mode" value="mobile"> Mobile</label>
+        </div>
+        <div>
+          <h3>Dimension</h3>
+          <label><input type="radio" name="dimension" value="2d" checked> 2D Grid</label>
+          <label><input type="radio" name="dimension" value="3d"> 3D Starfield</label>
+        </div>
+      </div>
+      <button id="startGame">Launch</button>
+    </div>
+  </div>
+
+  <div id="instructions" class="overlay" role="dialog" aria-modal="true" aria-labelledby="instrT">
+    <div class="panel">
+      <h2 id="instrT">Controls</h2>
+      <p id="instructionsText"></p>
+      <p class="muted">Press any key (desktop) or tap (mobile) to continue.</p>
+    </div>
+  </div>
+
+  <div id="countdown" class="overlay" aria-live="assertive">3</div>
+
+  <div id="pauseOverlay" class="overlay" aria-live="polite">
+    <div class="panel">
+      <h2>Paused</h2>
+      <p>Press <kbd>P</kbd>, <kbd>Esc</kbd>, or the button to resume.</p>
+      <button id="resumeBtn">Resume</button>
+    </div>
+  </div>
+
+  <div id="gameOver" class="overlay">
+    <div class="panel">
+      <h2 id="endMsg"></h2>
+      <div id="stats" aria-live="polite">
+        <div>Eliminations: <span id="statKills"></span></div>
+        <div>Time: <span id="statTimeOver"></span>s</div>
+        <div>Lives: <span id="statLives"></span></div>
+        <div>Score: <span id="statScore"></span></div>
+      </div>
+      <div class="input-row">
+        <label for="playerName">Enter your callsign:</label>
+        <input id="playerName" type="text" maxlength="12" aria-label="Callsign" />
+        <button id="saveScore">Save and return</button>
+      </div>
+      <div id="leaderboard" aria-label="Leaderboard"></div>
+      <div class="credits">By Draftapps - Lorenzo Prandi</div>
+    </div>
+  </div>
+
+  <div id="container" role="application" aria-label="Battlespace">
+    <canvas id="gameCanvas" tabindex="0" aria-label="Game canvas"></canvas>
+    <div id="panel" aria-live="polite" class="panel">
+      <h3>Status</h3>
+      <div>Lives: <span id="lives">—</span></div>
+      <div>Shots: <span id="shots">—</span></div>
+      <div>Time: <span id="time">—</span>s</div>
+      <div>Dimension: <span id="dimensionLabel">—</span></div>
+      <button id="pauseBtn" class="btn">Pause</button>
+    </div>
+  </div>
+
+  <script src="/static/game.js"></script>
+</body>
+</html>
