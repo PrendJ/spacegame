@@ -455,9 +455,14 @@
       } else {
         this._starfield = this._starfield.map(s => {
           s.z -= 0.004;
-          if (s.z <= 0) s.z = 1;
-          const sx = (s.x - 0.5) * this.width / Math.max(s.z,0.1) + this.width/2;
-          const sy = (s.y - 0.5) * this.height / Math.max(s.z,0.1) + this.height/2;
+          if (s.z <= 0.05) return { x: Math.random(), y: Math.random(), z: 1 };
+
+          const invZ = 1 / Math.max(s.z, 0.1);
+          const sx = (s.x - 0.5) * this.width * invZ + this.width/2;
+          const sy = (s.y - 0.5) * this.height * invZ + this.height/2;
+          const offCanvas = sx < -40 || sx > this.width + 40 || sy < -40 || sy > this.height + 40;
+          if (offCanvas) return { x: Math.random(), y: Math.random(), z: 1 };
+
           const size = clamp((1 - s.z) * 3, 0.5, 3.2);
           ctx.fillStyle = `rgba(200,230,255,${1 - s.z})`;
           ctx.fillRect(sx, sy, size, size);
