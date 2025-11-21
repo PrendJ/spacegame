@@ -1,15 +1,17 @@
+from pathlib import Path
+
 from flask import Flask, send_from_directory
 
-app = Flask(__name__, static_folder="static")
+BASE_DIR = Path(__file__).parent
+STATIC_DIR = BASE_DIR / "static"
+
+app = Flask(__name__, static_folder=str(STATIC_DIR))
 
 
 @app.route("/")
 def index() -> object:
-    """Serve the main game shell.
+    """Serve the bundled static shell for the game client."""
 
-    The game is a static canvas experience, so routing simply forwards to the
-    bundled index that wires CSS/JS assets.
-    """
     return send_from_directory(app.static_folder, "index.html")
 
 
