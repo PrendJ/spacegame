@@ -1,0 +1,98 @@
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+[UID:1666][1612547] Child process with pid: 1612582 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+[UID:1666][1612976] Child process with pid: 1613020 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+[UID:1666][1623319] Child process with pid: 1623354 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 1, in <module>
+    from flask import Flask, Response
+ModuleNotFoundError: No module named 'flask'
+[UID:1666][1623319] Child process with pid: 1623370 was killed by signal: 15, core dumped: no
+[UID:1666][1629646] Child process with pid: 1629792 was killed by signal: 15, core dumped: no
+[UID:1666][1636744] Child process with pid: 1684139 was killed by signal: 15, core dumped: no
+[UID:1666][1686430] Child process with pid: 1686534 was killed by signal: 15, core dumped: no
+[UID:1666][1686430] Child process with pid: 1686708 was killed by signal: 15, core dumped: no
+[UID:1666][1686430] Child process with pid: 1689288 was killed by signal: 15, core dumped: no
+[UID:1666][1736590] Child process with pid: 1736651 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 7
+    html = '''<!DOCTYPE html>
+           ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 287)
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 7
+    html = '''<!DOCTYPE html>
+           ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 287)
+[UID:1666][1761821] Child process with pid: 1761852 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 7
+    html = '''<!DOCTYPE html>
+           ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 287)
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 7
+    html = '''<!DOCTYPE html>
+           ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 287)
+[UID:1666][1778938] Child process with pid: 1778976 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 7
+    html = '''<!DOCTYPE html>
+           ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 287)
+[UID:1666][1778938] Child process with pid: 1779984 was killed by signal: 15, core dumped: no
+Traceback (most recent call last):
+  File "/home/nuotousv/draftapps.it/spacegame/passenger_wsgi.py", line 8, in <module>
+    from app import app as application
+  File "/home/nuotousv/draftapps.it/spacegame/app.py", line 7
+    html = '''<!DOCTYPE html>
+           ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 287)
+[UID:1666][1778938] Child process with pid: 1792540 was killed by signal: 15, core dumped: no
