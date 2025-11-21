@@ -408,7 +408,7 @@
       if (this.running && !this.paused) {
         this.elapsed += dt; elements.panelTime.textContent = this.elapsed.toFixed(1);
         this._enemyTimer += dt * 1000; this._enemyFireTimer += dt * 1000; this._fireTimer += dt * 1000;
-        if (this._enemyTimer > 600 / this.difficulty.slowFactor) { this._enemyTimer = 0; this._spawnEnemy(); }
+        if (this._enemyTimer > 600 * this.difficulty.slowFactor) { this._enemyTimer = 0; this._spawnEnemy(); }
         if (this._enemyFireTimer > this.difficulty.enemyFireMs) {
           this._enemyFireTimer = 0; this.enemies.forEach(e => { if (Math.random() < 0.35) this._enemyFire(e); });
         }
