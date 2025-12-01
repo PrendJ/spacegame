@@ -25,7 +25,8 @@
 
 ## Rendering & performance
 - Canvas sized dynamically from viewport, capped for predictable cell scaling.
-- 2D rendering uses animated grid lines, soft glows, and capped particle bursts.
+- 2D rendering uses a tiled navy board with intersection crosshairs; the top row is highlighted red for enemy deployment and the bottom-right tile shines gold for the player spawn.
+- Additional soft glows and capped particle bursts layer over the grid to keep motion readable without clutter.
 - Ship silhouettes reuse the favicon artwork, tinted **gold** for the player and **red** for enemies to keep silhouettes consistent.
 - Pickups drift downward with a slight sine wobble to signal collectability.
 - Particles are capped to `MAX_PARTICLES` to avoid runaway allocations; old particles are culled.

@@ -582,29 +582,62 @@
 
     _drawBackground() {
       ctx.save();
-      ctx.fillStyle = '#000b18';
+      ctx.fillStyle = '#041021';
       ctx.fillRect(0,0,this.width,this.height);
-      const gradient = ctx.createLinearGradient(0,0,0,this.height);
-      gradient.addColorStop(0,'rgba(80,130,255,0.15)');
-      gradient.addColorStop(1,'rgba(0,0,0,0.2)');
-      ctx.fillStyle = gradient;
+      const verticalGlow = ctx.createLinearGradient(0,0,0,this.height);
+      verticalGlow.addColorStop(0,'rgba(90,150,255,0.15)');
+      verticalGlow.addColorStop(1,'rgba(0,0,0,0.25)');
+      ctx.fillStyle = verticalGlow;
       ctx.fillRect(0,0,this.width,this.height);
 
-      this._bgPhase += 0.6;
-      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
-      ctx.lineWidth = 1;
-      for (let c=0;c<=COLS;c++){
-        ctx.beginPath(); ctx.moveTo(c*this.cell + Math.sin((c+this._bgPhase)*0.2)*1.5,0); ctx.lineTo(c*this.cell, this.height); ctx.stroke();
-      }
-      for (let r=0;r<=ROWS;r++){
-        ctx.beginPath(); ctx.moveTo(0,r*this.cell); ctx.lineTo(this.width, r*this.cell + Math.cos((r+this._bgPhase)*0.25)*1.5); ctx.stroke();
+      const playerStart = { x: COLS - 2, y: ROWS - 2 };
+      for (let y = 0; y < ROWS; y++) {
+        const depth = y / Math.max(ROWS - 1, 1);
+        const baseR = 6 + depth * 10;
+        const baseG = 58 + depth * 34;
+        const baseB = 90 + depth * 48;
+        for (let x = 0; x < COLS; x++) {
+          const px = x * this.cell;
+          const py = y * this.cell;
+          const noise = (x % 2 === 0 ? 6 : -4) + (y % 2 === 0 ? 4 : 0);
+          let fillStyle = `rgba(${Math.round(baseR + noise)}, ${Math.round(baseG + noise)}, ${Math.round(baseB + noise)}, 0.94)`;
+          if (y === 0) {
+            const redNoise = (x % 2 === 0 ? 12 : -8);
+            fillStyle = `rgba(${178 + redNoise}, ${54 + redNoise * 0.1}, ${54 + redNoise * 0.08}, 0.9)`;
+          }
+          if (x === playerStart.x && y === playerStart.y) {
+            fillStyle = 'rgba(212, 175, 55, 0.9)';
+          }
+          ctx.fillStyle = fillStyle;
+          ctx.fillRect(px + 1, py + 1, this.cell - 2, this.cell - 2);
+        }
       }
 
-      ctx.globalAlpha = 0.16;
+      this._bgPhase += 0.35;
+      ctx.strokeStyle = 'rgba(255,255,255,0.26)';
+      ctx.lineWidth = 1.1;
+      const cross = this.cell * 0.18;
+      for (let c = 0; c <= COLS; c++) {
+        const cx = c * this.cell;
+        for (let r = 0; r <= ROWS; r++) {
+          const cy = r * this.cell;
+          const pulse = Math.sin((this._bgPhase + c + r) * 0.08) * 0.03;
+          ctx.globalAlpha = 0.7 + pulse;
+          ctx.beginPath();
+          ctx.moveTo(cx - cross, cy);
+          ctx.lineTo(cx + cross, cy);
+          ctx.moveTo(cx, cy - cross);
+          ctx.lineTo(cx, cy + cross);
+          ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      ctx.globalAlpha = 0.12;
       ctx.fillStyle = '#55f5ff';
       for (let i=0;i<6;i++) {
         const w = randRange(10,40);
-        const h = randRange(4,8);
+        const h = randRange(4,10);
         const x = randRange(0, this.width - w);
         const y = randRange(0, this.height - h);
         ctx.fillRect(x,y,w,h);
