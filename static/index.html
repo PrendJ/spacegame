@@ -16,7 +16,7 @@
   <div id="menu" class="overlay" role="dialog" aria-modal="true" aria-labelledby="ttl">
     <div class="panel">
       <h1 id="ttl">Space Game</h1>
-      <p>Choose your mission profile, then dive into classic or 3D combat.</p>
+      <p>Choose your mission profile, then dive into the refreshed 2D dogfight.</p>
       <div class="grid">
         <div>
           <h3>Difficulty</h3>
@@ -28,11 +28,6 @@
           <h3>Controls</h3>
           <label><input type="radio" name="mode" value="desktop" checked> Desktop</label>
           <label><input type="radio" name="mode" value="mobile"> Mobile</label>
-        </div>
-        <div>
-          <h3>Dimension</h3>
-          <label><input type="radio" name="dimension" value="2d" checked> 2D Grid</label>
-          <label><input type="radio" name="dimension" value="3d"> 3D Starfield</label>
         </div>
       </div>
       <button id="startGame">Launch</button>
@@ -83,7 +78,8 @@
       <div>Lives: <span id="lives">—</span></div>
       <div>Shots: <span id="shots">—</span></div>
       <div>Time: <span id="time">—</span>s</div>
-      <div>Dimension: <span id="dimensionLabel">—</span></div>
+      <div>Wave: <span id="wave">—</span></div>
+      <div>Momentum: <span id="momentum">—</span>x</div>
       <button id="pauseBtn" class="btn">Pause</button>
     </div>
   </div>

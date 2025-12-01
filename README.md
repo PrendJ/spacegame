@@ -1,12 +1,12 @@
 # Space Game
 
-Space Game is a lightweight Flask-served arcade built on an HTML5 canvas. Battle waves of ships in the familiar 2D grid or switch to a pseudo-3D starfield variant for faster, more cinematic runs.
+Space Game is a lightweight Flask-served arcade built on an HTML5 canvas. The refactored experience focuses on a fast, tactile 2D battlefield with neon visuals and pick-ups that keep each run lively.
 
 ## Features
-- **Dual dimensions:** Classic 2D grid tactics or a 3D starfield projection for a sense of depth.
+- **Neon 2D dogfights:** Glide along a responsive grid with momentum-based scoring and juicy particle bursts.
 - **Difficulty presets:** Explorer, Veteran, and Nightmare profiles tune movement speed, enemy spread, and fire cadence.
 - **Desktop & mobile controls:** Keyboard/space bar on desktop, drag/tap auto-fire on touch devices.
-- **Responsive visuals:** Particle bursts, starfield parallax, and soft gradients optimized for smooth redraws.
+- **Pickups & momentum:** Random drops heal or clear the lane; momentum multipliers reward clean streaks.
 - **Local leaderboard:** Save your callsign and score directly in the browser.
 
 ## Running locally
@@ -31,11 +31,8 @@ Space Game is a lightweight Flask-served arcade built on an HTML5 canvas. Battle
 - `app.py` – Minimal Flask entrypoint serving static assets.
 - `static/index.html` – Game shell and UI overlays.
 - `static/styles.css` – Layout and visual styling.
-- `static/game.js` – Game loop, rendering pipeline, and 2D/3D mechanics.
+- `static/game.js` – Game loop, rendering pipeline, and 2D arcade mechanics.
 - `docs/spec.md` – High-level specification and acceptance notes.
 
-## 3D variant
-The 3D mode introduces a depth axis that affects rendering scale, starfield motion, and collision radius, creating a sense of distance while keeping the controls identical to 2D.
-
 ## Credits
-Original concept by Draftapps - Lorenzo Prandi. Refinements and 3D variant by the current maintainer.
+Original concept by Draftapps - Lorenzo Prandi. 2D-focused refresh by the current maintainer.
