@@ -33,6 +33,7 @@
   };
 
   const canvas = document.getElementById('gameCanvas');
+  const containerEl = document.getElementById('container');
   const ctx = canvas.getContext('2d');
 
   const elements = {
@@ -50,6 +51,7 @@
       lives: document.getElementById('statLives'),
       score: document.getElementById('statScore')
     },
+    panel: document.getElementById('panel'),
     panelLives: document.getElementById('lives'),
     panelShots: document.getElementById('shots'),
     panelTime: document.getElementById('time'),
@@ -224,8 +226,27 @@
     }
 
     resize() {
-      const size = Math.min(window.innerWidth * 0.9, 640);
-      this.cell = Math.floor(size / COLS);
+      const styles = getComputedStyle(containerEl);
+      const paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+      const paddingY = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+      const gap = parseFloat(styles.gap) || 0;
+      const panelRect = elements.panel.getBoundingClientRect();
+
+      let availableWidth = window.innerWidth - paddingX;
+      let availableHeight = window.innerHeight - paddingY;
+
+      if (window.innerWidth > 900) {
+        availableWidth -= panelRect.width + gap;
+      } else {
+        availableHeight -= panelRect.height + gap;
+      }
+
+      availableWidth = Math.max(availableWidth, 0);
+      availableHeight = Math.max(availableHeight, 0);
+
+      const maxCanvasWidth = Math.min(640, availableWidth);
+      const cellCandidate = Math.floor(Math.min(maxCanvasWidth / COLS, availableHeight / ROWS));
+      this.cell = Math.max(1, cellCandidate);
       const cssWidth = this.cell * COLS;
       const cssHeight = this.cell * ROWS;
       const dpr = window.devicePixelRatio || 1;
