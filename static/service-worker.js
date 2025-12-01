@@ -1,9 +1,13 @@
 const CACHE_NAME = 'space-game-v1';
+const scopeUrl = new URL(self.registration.scope);
+const rootPath = scopeUrl.pathname.endsWith('/static/')
+  ? scopeUrl.pathname.replace(/static\/$/, '')
+  : scopeUrl.pathname;
 const toCache = [
-  '/',
-  '/?utm_source=pwa',
-  '/static/favicon-192.png',
-  '/static/favicon-512.png',
+  rootPath,
+  `${rootPath}?utm_source=pwa`,
+  `${rootPath}static/favicon-192.png`,
+  `${rootPath}static/favicon-512.png`,
 ];
 
 self.addEventListener('install', evt => {
