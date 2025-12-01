@@ -11,6 +11,27 @@
   const MAX_PARTICLES = 120;
   const PICKUP_CHANCE = 0.16;
 
+  const shipBase = new Image();
+  shipBase.src = 'Favicon.png';
+  const tintedShips = {};
+  const tintShip = (color) => {
+    const off = document.createElement('canvas');
+    const size = 64;
+    off.width = off.height = size;
+    const oc = off.getContext('2d');
+    oc.clearRect(0, 0, size, size);
+    oc.drawImage(shipBase, 0, 0, size, size);
+    oc.globalCompositeOperation = 'source-atop';
+    oc.fillStyle = color;
+    oc.fillRect(0, 0, size, size);
+    oc.globalCompositeOperation = 'source-over';
+    return off;
+  };
+  shipBase.onload = () => {
+    tintedShips.gold = tintShip('#d4af37');
+    tintedShips.red = tintShip('#d94a4a');
+  };
+
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
 
@@ -165,7 +186,7 @@
       this.paused = false;
       this.lastTs = 0;
       this.elapsed = 0;
-      this.player = new Entity(COLS/2, ROWS-2);
+      this.player = new Entity(COLS-2, ROWS-2);
       this.enemies = [];
       this.pickups = [];
       this.playerShots = [];
@@ -185,6 +206,10 @@
       this._fireTimer = 0;
       this._mobileAutoFire = 0;
       this._bgPhase = 0;
+      this._playerStepElapsed = 0;
+      this._enemyStepElapsed = 0;
+      this.playerStepMs = 200;
+      this.enemyStepMs = 340;
     }
 
     _bindUI() {
@@ -222,6 +247,8 @@
       this.difficulty = difficultyConfig[diff];
       this.mode = mode;
       this.input.setMobile(mode === 'mobile');
+      this.playerStepMs = 180 * this.difficulty.slowFactor;
+      this.enemyStepMs = 260 * this.difficulty.slowFactor / (this.difficulty.enemySpeed / 4);
       this.showInstructions();
     }
 
@@ -260,7 +287,7 @@
       this.running = true;
       this.lastTs = performance.now();
       this.elapsed = 0;
-      this.player.x = COLS/2; this.player.y = ROWS-2;
+      this.player.x = COLS-2; this.player.y = ROWS-2;
       elements.panelLives.textContent = this.lives;
       elements.panelShots.textContent = this.shotsFired;
       elements.panelTime.textContent = '0';
@@ -290,9 +317,7 @@
     _spawnEnemy() {
       const x = Math.floor(randRange(1, COLS-1));
       const e = new Entity(x, 0);
-      const waveBoost = 1 + (this.wave - 1) * 0.08;
-      e.vy = (this.difficulty.enemySpeed || 4) * waveBoost / this.difficulty.slowFactor;
-      e.vx = randRange(-0.4, 0.4) * this.difficulty.fanSpread * waveBoost;
+      e.stepDir = { x: 0, y: 1 };
       this.enemies.push(e);
     }
 
@@ -310,11 +335,47 @@
       this.enemyShots.push(s);
     }
 
+    _movePlayerGrid() {
+      const dirX = Math.sign(this.input.dir.x);
+      const dirY = Math.sign(this.input.dir.y);
+      let stepX = dirX, stepY = dirY;
+      if (dirX && dirY) {
+        if (Math.abs(this.input.dir.x) >= Math.abs(this.input.dir.y)) {
+          stepY = 0;
+        } else {
+          stepX = 0;
+        }
+      }
+      if (!stepX && !stepY) return;
+      const targetX = clamp(Math.round(this.player.x + stepX), 1, COLS-2);
+      const targetY = clamp(Math.round(this.player.y + stepY), 6, ROWS-2);
+      this.player.x = targetX;
+      this.player.y = targetY;
+    }
+
+    _stepEnemy(enemy) {
+      const dir = enemy.stepDir || { x: 0, y: 1 };
+      if (dir.y !== 0) {
+        enemy.y += dir.y;
+        const chase = Math.sign(this.player.x - enemy.x);
+        if (Math.random() < 0.25) {
+          enemy.stepDir = { x: chase || (Math.random() > 0.5 ? 1 : -1), y: 0 };
+        } else {
+          enemy.stepDir = dir;
+        }
+      } else {
+        enemy.x = clamp(enemy.x + dir.x, 1, COLS-2);
+        if (enemy.x <= 1 || enemy.x >= COLS-2) enemy.stepDir.x *= -1;
+        enemy.stepDir = { x: 0, y: 1 };
+      }
+    }
+
     _updateEntities(dt) {
-      // Player move
-      const spd = this.difficulty.playerSpeed / this.difficulty.slowFactor;
-      this.player.x = clamp(this.player.x + this.input.dir.x * spd * dt, 1, COLS-2);
-      this.player.y = clamp(this.player.y + this.input.dir.y * spd * dt, 6, ROWS-2);
+      this._playerStepElapsed += dt * 1000;
+      while (this._playerStepElapsed >= this.playerStepMs) {
+        this._playerStepElapsed -= this.playerStepMs;
+        this._movePlayerGrid();
+      }
 
       // Auto fire on mobile
       if (this.mode === 'mobile') {
@@ -329,12 +390,12 @@
       this.playerShots = this.playerShots.filter(s => s.y > -1 && s.alive);
 
       // Enemies
-      this.enemies.forEach(e => {
-        e.y += e.vy * dt;
-        e.x = clamp(e.x + e.vx * dt, 1, COLS-2);
-        if (Math.random() < 0.003) e.vx *= -1;
-      });
-      this.enemies = this.enemies.filter(e => e.y < ROWS + 2 && e.alive);
+      this._enemyStepElapsed += dt * 1000;
+      while (this._enemyStepElapsed >= this.enemyStepMs) {
+        this._enemyStepElapsed -= this.enemyStepMs;
+        this.enemies.forEach(e => this._stepEnemy(e));
+      }
+      this.enemies = this.enemies.filter(e => e.y < ROWS + 1 && e.alive);
 
       // Enemy shots
       this.enemyShots.forEach(s => { s.y += s.vy * dt; s.x += s.vx * dt; });
@@ -480,9 +541,9 @@
         this.elapsed += dt; elements.panelTime.textContent = this.elapsed.toFixed(1);
         this._enemyTimer += dt * 1000; this._enemyFireTimer += dt * 1000; this._fireTimer += dt * 1000;
         if (this._enemyTimer > 620 / this.difficulty.slowFactor) { this._enemyTimer = 0; this._spawnEnemy(); }
-        if (this._enemyFireTimer > this.difficulty.enemyFireMs) {
-          this._enemyFireTimer = 0; this.enemies.forEach(e => { if (Math.random() < 0.35) this._enemyFire(e); });
-        }
+      if (this._enemyFireTimer > this.difficulty.enemyFireMs) {
+        this._enemyFireTimer = 0; this.enemies.forEach(e => { if (Math.random() < 0.35) this._enemyFire(e); });
+      }
         if (this.input.firing && this._fireTimer > 200) { this._fireTimer = 0; this._firePlayer(); }
         if (this.kills && this.kills % 12 === 0) { this.wave = Math.floor(this.kills / 12) + 1; elements.panelWave.textContent = this.wave; }
         this._updateEntities(dt);
@@ -580,17 +641,21 @@
       ctx.restore();
 
       // Player
-      drawShip(this.player.x, this.player.y, '#55f5ff');
+      const playerSprite = tintedShips.gold || (shipBase.complete ? shipBase : null);
+      if (playerSprite) {
+        ctx.drawImage(playerSprite, this.player.x*this.cell - this.cell/2, this.player.y*this.cell - this.cell/2, this.cell, this.cell);
+      } else {
+        drawShip(this.player.x, this.player.y, '#d4af37');
+      }
 
       // Enemies
       this.enemies.forEach(e => {
-        ctx.save();
-        ctx.translate(e.x * this.cell, e.y * this.cell);
-        ctx.fillStyle = '#ff6ec7';
-        ctx.beginPath();
-        ctx.roundRect(-0.6*this.cell, -0.4*this.cell, 1.2*this.cell, 0.8*this.cell, 6);
-        ctx.fill();
-        ctx.restore();
+        const enemySprite = tintedShips.red || (shipBase.complete ? shipBase : null);
+        if (enemySprite) {
+          ctx.drawImage(enemySprite, e.x*this.cell - this.cell/2, e.y*this.cell - this.cell/2, this.cell, this.cell);
+        } else {
+          drawShip(e.x, e.y, '#d94a4a');
+        }
       });
 
       // Pickups
