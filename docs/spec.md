@@ -7,6 +7,8 @@
 
 ## Gameplay rules
 - Player starts with **3 lives**.
+- Player now begins in the **bottom-right** grid cell while enemies deploy from the **top row**.
+- Movement is **grid-locked**: player and enemies step one cell at a time along rows or columns (rook-style turns).
 - Collisions with enemy ships or their shots reduce lives by one; reaching zero triggers game over.
 - Each enemy destroyed awards **120 points** and increments the kill counter.
 - Enemy waves spawn every ~0.6s (scaled by difficulty), and enemies may strafe horizontally.
@@ -24,6 +26,7 @@
 ## Rendering & performance
 - Canvas sized dynamically from viewport, capped for predictable cell scaling.
 - 2D rendering uses animated grid lines, soft glows, and capped particle bursts.
+- Ship silhouettes reuse the favicon artwork, tinted **gold** for the player and **red** for enemies to keep silhouettes consistent.
 - Pickups drift downward with a slight sine wobble to signal collectability.
 - Particles are capped to `MAX_PARTICLES` to avoid runaway allocations; old particles are culled.
 - The game loop clamps `dt` to avoid spikes on tab refocus.
