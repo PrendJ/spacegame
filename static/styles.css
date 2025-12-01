@@ -1,13 +1,15 @@
-:root{ --bg:#001022; --fg:#fff; --silver:#c0c0c0; --panel:#0a1d33; --accent:#3bf4ff; }
+:root{ --bg:#050b1a; --bg2:#0c1b33; --fg:#f4fbff; --silver:#c0d9ff; --panel:#0b1d38; --accent:#55f5ff; --hot:#ff6ec7; }
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{
-  margin:0; background:radial-gradient(circle at 20% 20%, rgba(58,121,255,.08), transparent 35%),
-  radial-gradient(circle at 80% 10%, rgba(219,47,254,.06), transparent 40%),
-  var(--bg);
+  margin:0;
+  background:radial-gradient(circle at 20% 20%, rgba(60,134,255,.12), transparent 40%),
+             radial-gradient(circle at 70% 10%, rgba(255,110,199,.1), transparent 35%),
+             radial-gradient(circle at 20% 80%, rgba(90,255,230,.08), transparent 35%),
+             linear-gradient(135deg, var(--bg), var(--bg2));
   color:var(--fg);
   display:flex; justify-content:center; align-items:center;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
   overscroll-behavior:none;
 }
 #container{
@@ -17,27 +19,29 @@ body{
   justify-content:center;
 }
 canvas{
-  display:block; background:#000818; border:2px solid var(--silver);
-  touch-action:none; outline:none; border-radius:12px;
-  box-shadow:0 0 30px rgba(0,0,0,.6), inset 0 0 12px rgba(255,255,255,.08);
+  display:block; background:radial-gradient(circle at 50% 30%, rgba(100,150,255,.1), #000914 60%);
+  border:2px solid var(--silver);
+  touch-action:none; outline:none; border-radius:16px;
+  box-shadow:0 0 30px rgba(0,0,0,.55), inset 0 0 12px rgba(255,255,255,.08);
 }
 .panel{
-  background:linear-gradient(145deg, #0a1d33, #0e2744);
-  border:2px solid var(--silver); border-radius:12px;
-  min-width:180px; padding:12px; font-size:14px; height:fit-content;
+  background:linear-gradient(165deg, #0b2340, #0a1b31 55%, #0c2b4e);
+  border:2px solid var(--silver); border-radius:16px;
+  min-width:200px; padding:14px; font-size:14px; height:fit-content;
   box-shadow:0 6px 20px rgba(0,0,0,.35);
 }
-#panel h3{ margin:0 0 8px 0; font-size:14px; }
-#panel div{ margin:6px 0; }
+#panel h3{ margin:0 0 8px 0; font-size:15px; letter-spacing:0.3px; }
+#panel div{ margin:8px 0; display:flex; justify-content:space-between; align-items:center; }
+.pill{ background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:10px; border:1px solid rgba(255,255,255,.08); }
 .btn,button{
-  padding:10px 16px; margin:6px 0; cursor:pointer; font-size:1em; border-radius:10px;
-  border:1px solid var(--silver); background:#06203a; color:#fff; transition:transform .1s ease, box-shadow .1s ease;
+  padding:10px 16px; margin:6px 0; cursor:pointer; font-size:1em; border-radius:12px;
+  border:1px solid var(--silver); background:linear-gradient(135deg, #0d2f59, #0a2344); color:#fff; transition:transform .1s ease, box-shadow .1s ease, background .2s;
 }
-button:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.35); }
+button:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.35); background:linear-gradient(135deg, #16437a, #0d2f59); }
 button:focus-visible{ outline:3px solid #7fd; }
-input[type=text]{ padding:8px; margin:6px 0; font-size:1em; border-radius:8px; border:1px solid #456; background:#081b2f; color:#fff; }
+input[type=text]{ padding:10px; margin:6px 0; font-size:1em; border-radius:10px; border:1px solid #456; background:#081b2f; color:#fff; }
 .overlay{
-  position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:1000;
+  position:fixed; inset:0; background:radial-gradient(circle at 40% 40%, rgba(90,160,255,.16), rgba(0,0,0,.9)); z-index:1000;
   display:flex; justify-content:center; align-items:center; flex-direction:column;
   color:#fff; text-align:center; padding:24px;
 }
